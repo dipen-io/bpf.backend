@@ -1,14 +1,14 @@
 import "dotenv/config";
 import { app } from "./src/app.js";
+import { config } from "./src/config/env.js";
 import http from "node:http2";
-const PORT = process.env.PORT || 8000;
 
 async function startServer() {
     try {
         // start the db connecttion
         const server = http.createServer(app);
-        server.listen(PORT, () => {
-            console.log(`✅ Server running on port ${PORT}`);
+        server.listen(config.PORT, () => {
+            console.log(`✅ Server running on port ${config.PORT}`);
             if (process.env.NODE_ENV === "development") {
                 console.log("Running in dev mode");
             }
