@@ -3,13 +3,13 @@ import { app } from "./src/app.js";
 import { config } from "./src/config/env.js";
 import { prisma } from "./src/config/prisma.js"
 import { redis } from "./src/config/redis.js"
-import http from "node:http2";
+import http from "node:http";
 import { logger } from "./src/utils/logger.js"
 
 
 async function startServer() {
     try {
-        // start the db connecttion
+
         const server = http.createServer(app);
 
         await prisma.$connect();
@@ -27,8 +27,14 @@ async function startServer() {
 
     } catch (error) {
         logger.error("error starting server", error.message);
-        await prisma.$disconnect();
-        await redis.quite();
+
+        // Clean infrastructure disconnections on boot failure
+        try {
+            await prisma.$disconnect();
+            await redis.quit();
+        } catch (cleanupError) {
+            logger.error("Error cleaning up connections during crash:", cleanupError.message);
+        }
         process.exit(1);
     }
 }

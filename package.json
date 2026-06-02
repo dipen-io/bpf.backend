@@ -20,6 +20,8 @@
     "ioredis": "^5.11.0",
     "morgan": "^1.10.1",
     "pg": "^8.21.0",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
     "winston": "^3.19.0",
     "zod": "^4.4.3"
   },
@@ -27,6 +29,7 @@
     "@eslint/js": "^10.0.1",
     "@types/morgan": "^1.9.10",
     "@types/pg": "^8.20.0",
+    "@types/swagger-ui-express": "^4.1.8",
     "dotenv": "^17.4.1",
     "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
