@@ -29,6 +29,14 @@ const envSchema = z.object({
   SMTP_PORT: z.coerce.number().int().optional(),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
+
+  // ─── Redis ─────────────────────────────────────────
+  REDIS_URL:             z.string().url().optional(),
+  REDIS_HOST:            z.string().default("localhost"),
+  REDIS_PORT:            z.coerce.number().int().default(6379),
+  REDIS_PASSWORD:        z.string().optional(),
+  REDIS_DB:              z.coerce.number().int().default(0),
+  REDIS_TLS:             z.coerce.boolean().default(false),
 });
 
 // Validate and parse — throws with clear errors on startup if anything is wrong
