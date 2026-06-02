@@ -4,6 +4,8 @@ import { config } from "./src/config/env.js";
 import { prisma } from "./src/config/prisma.js"
 import { redis } from "./src/config/redis.js"
 import http from "node:http2";
+import { logger } from "./src/utils/logger.js"
+
 
 async function startServer() {
     try {
@@ -11,21 +13,20 @@ async function startServer() {
         const server = http.createServer(app);
 
         await prisma.$connect();
-        console.log("✅ Database connected");
 
         await redis.connect();
         await redis.ping();
-        console.log("✅ Redis connected");
+        logger.info("✅ Redis connected");
 
         server.listen(config.PORT, () => {
-            console.log(`✅ Server running on port ${config.PORT}`);
+            logger.info(`✅ Server running on port ${config.PORT}`);
             if (process.env.NODE_ENV === "development") {
-                console.log("✅ Running in dev mode");
+                logger.info("✅ Running in dev mode");
             }
         })
 
     } catch (error) {
-        console.error("error starting server", error.message);
+        logger.error("error starting server", error.message);
         await prisma.$disconnect();
         await redis.quite();
         process.exit(1);

@@ -1,5 +1,6 @@
 import Redis from "ioredis"
 import { config } from "./env.js"
+import { logger } from "../utils/logger.js";
 
 const globalForRedis = globalThis;
 
@@ -17,12 +18,12 @@ if (!globalForRedis.redis) {
         // ---- Retry Strategy
         retryStrategy(times) {
             if (times > 5) {
-                console.error("[Redis] Max retry reached , giving up");
+                logger.error("[Redis] Max retry reached , giving up");
                 return null;
             }
 
             const delay = Math.min(times * 200, 2000);
-            console.warn(`[Redis] Retrying connection.. attempt ${times} (${delay}ms)`)
+            logger.warn(`[Redis] Retrying connection.. attempt ${times} (${delay}ms)`)
             return delay;
         },
         // -- Timeout
@@ -34,7 +35,6 @@ if (!globalForRedis.redis) {
         reconnectOnError(err) {
             const targetErrors = ["READONLY", "ECONNRESET", "ETIMEDOUT"];
             return targetErrors.some((e) => err.message.includes(e));
-            
         },
 
         // -- misc
@@ -48,15 +48,15 @@ if (!globalForRedis.redis) {
     : new Redis(redisConfig);
 
     // -- Events
-    globalForRedis.redis.on("connect", () => console.log("Redis connected"));
-    globalForRedis.redis.on("ready", () => console.log("Redis ready"));
-    globalForRedis.redis.on("error", (err) => console.error("[Redis] Error:", err.message));
-    globalForRedis.redis.on("close", () => console.warn("[Redis] connetion closed"));
-    globalForRedis.redis.on("reconnecting",   () => console.warn("[Redis] Reconnecting..."));
-    globalForRedis.redis.on("end",            () => console.warn("[Redis] Connection ended"));
+    globalForRedis.redis.on("connect", () => logger.info("✅ Database connected"));
+    globalForRedis.redis.on("ready", () => logger.info("✅ Redis ready"));
+    globalForRedis.redis.on("error", (err) => logger.error("[Redis] Error:", err.message));
+    globalForRedis.redis.on("close", () => logger.warn("[Redis] connetion closed"));
+    globalForRedis.redis.on("reconnecting",   () => logger.warn("[Redis] Reconnecting..."));
+    globalForRedis.redis.on("end",            () => logger.warn("[Redis] Connection ended"));
 
     const shutdown = async () => {
-        console.log("Shuting down Redis..");
+        logger.info("Shuting down Redis..");
         await globalForRedis.redis.quite();
         process.exit(0);
     };
