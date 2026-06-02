@@ -4,6 +4,7 @@ import swaggerUiExpress from "swagger-ui-express";
 import { logger } from "./utils/logger.js";
 import { config } from "./config/env.js";
 import { swaggerSpec } from "./config/swagger.js";
+
 import { router as apiRouter } from "./routes/index.js";
 
 const app = express();

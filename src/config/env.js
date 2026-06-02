@@ -21,9 +21,6 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
   JWT_EXPIRES_IN: z.string().default("7d"),
 
-  // ─── Optional: Redis ───────────────────────────────
-  REDIS_URL: z.string().url().optional(),
-
   // ─── Optional: Email ───────────────────────────────
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().int().optional(),
