@@ -5,7 +5,6 @@ const errorHandler = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500
     err.code    = err.message    || "INTERNAL_SERVER_ERROR"
 
-
     // log error for dev mode
     logger.error(`[${req.method}] ${req.path} - ${err.message}`, {
         stack: err.stack,
