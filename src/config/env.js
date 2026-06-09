@@ -35,7 +35,13 @@ const envSchema = z.object({
   REDIS_DB:              z.coerce.number().int().default(0),
   REDIS_TLS:             z.coerce.boolean().default(false),
 
-  ALLOWED_ORIGINS:          z.string() 
+  ALLOWED_ORIGINS:          z.string(), 
+
+    // -- JWT
+  JWT_ACCESS_SECRET : z.string(),
+  JWT_ACCESS_SECRET_EXPIRY: z.string(),
+  JWT_REFRESH_SECRET : z.string(),
+  JWT_REFRESH_SECRET_EXPIRY: z.string(),
 });
 
 // Validate and parse — throws with clear errors on startup if anything is wrong

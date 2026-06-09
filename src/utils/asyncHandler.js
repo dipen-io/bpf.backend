@@ -1,8 +1,8 @@
-import { ApiError } from "./ApiError"
+import { AppError } from "./AppError.js"
 
 const asyncHandler = (fn) => {
     if (typeof fn !== 'function') {
-        throw new ApiError(404, `asyncHandler expects a function, got ${typeof fn}`) 
+        throw new AppError(404, `asyncHandler expects a function, got ${typeof fn}`) 
     }
     return (req, res, next) => 
 

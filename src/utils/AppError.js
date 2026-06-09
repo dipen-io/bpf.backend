@@ -1,10 +1,11 @@
 // structure api error class
 
 class AppError extends Error {
-    constructor({ statusCode, message, code = "INTERNAL_ERROR", errors = [], stack = "") {
+    constructor({ statusCode, message, code = "INTERNAL_ERROR", errors = [], stack = ""}) {
         super(message)
         this.statusCode = statusCode
         this.errors = errors
+        this.code = code
         this.success = false
         this.isOperational = true;
 
@@ -24,7 +25,7 @@ class BadRequestError extends AppError {
 
 class UnauthorizedError extends AppError{
     constructor(message = "Unauthorized", code="UNAUTHORIZED") {
-        super({ statusCode = 401, message, code });
+        super({ statusCode: 401, message, code });
     }
 }
 
