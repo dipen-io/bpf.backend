@@ -34,6 +34,8 @@ const envSchema = z.object({
   REDIS_PASSWORD:        z.string().optional(),
   REDIS_DB:              z.coerce.number().int().default(0),
   REDIS_TLS:             z.coerce.boolean().default(false),
+
+  ALLOWED_ORIGINS:          z.string() 
 });
 
 // Validate and parse — throws with clear errors on startup if anything is wrong
